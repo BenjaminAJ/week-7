@@ -8,6 +8,9 @@ let questObj = {
     options : '',
 }
 
+let score;
+let grade;
+
 
 let questionarray = [{ 
     question: "What is HTML?",
@@ -60,7 +63,7 @@ let questionarray = [{
   },];
   
   submitBtn.addEventListener('click', () => {
-    console.log('hey');
+    getScore();
   })
 
 let questionIndex = 0;
@@ -74,23 +77,23 @@ questionarray.forEach(element => {
             <div class="row">
               <div class="col-12">
               
-                <input type="radio" id="question${questionIndex}optionChoice1" name="option" value="${element.options[0]}" onclick="getSelectedOption(question${questionIndex}optionChoice1)" />
+                <input type="radio" id="question${questionIndex}optionChoice1" name="option" value="${element.options[0]}" onclick="getSelectedOption(${questionIndex-1}, question${questionIndex}optionChoice1)" />
                 <label for="optionChoice1">${element.options[0]}</label>
 
               </div>
               <div class="col-12"> 
-                <input type="radio" id="optionChoice2" name="option" value="${element.options[1]}" onclick="getSelectedOption(${questionIndex})" />
+                <input type="radio" id="question${questionIndex}optionChoice2" name="option" value="${element.options[1]}" onclick="getSelectedOption(${questionIndex -1}, question${questionIndex}optionChoice2)" />
                 <label for="optionChoice2">${element.options[1]}</label>
               </div>
 
               <div class="col-12">
-                <input type="radio" id="optionChoice3" name="option" value="${element.options[2]}"  onclick="getSelectedOption(${questionIndex})"/>
+                <input type="radio" id="question${questionIndex}optionChoice3" name="option" value="${element.options[2]}"  onclick="getSelectedOption(${questionIndex -1}, question${questionIndex}optionChoice3)"/>
                 <label for="optionChoice3">${element.options[2]}</label>
               
               </div>
 
               <div class="col-12">
-                <input type="radio" id="optionChoice4" name="option" value="${element.options[3]}" onclick="getSelectedOption(${questionIndex})" />
+                <input type="radio" id="question${questionIndex}optionChoice4" name="option" value="${element.options[3]}" onclick="getSelectedOption(${questionIndex -1}, question${questionIndex}optionChoice4)" />
                 <label for="optionChoice4">${element.options[3]}</label>
               
               </div>
@@ -101,10 +104,38 @@ questionarray.forEach(element => {
     `;
 });
 
-function getSelectedOption(userAnswer) {
-    console.log(userChoice);
-    console.log(userAnswer);
+function getSelectedOption(questionIndex, userSelectedOption) {
 
-    // questionarray[questionIndex].userAnswer = userChoice;
-    // console.log(questionarray);
+  // if (userSelectedOption.value === null) {
+  //   questionarray[questionIndex].userAnswer = '';
+  //   return
+    
+  // }
+    questionarray[questionIndex].userAnswer = userSelectedOption.value;
+    console.log(userSelectedOption.value);
+
+    console.log(questionarray);
+}
+
+function getScore(params) {
+  score = 0;
+
+  questionarray.forEach(element => {
+    if (element.answer.trim() === element.userAnswer.trim()) {
+      score++;
+    }
+
+  });
+
+  if (score >= (questionarray.length / 2)) {
+    grade = 'passed';
+  } 
+  else{
+    grade = 'failed';
+
+  }
+  resultWrapper.innerHTML = `Your score is ${score}/${questionarray.length + 1}.`
+  resultWrapper.innerHTML += `You ${grade}.`
+  console.log(score);
+
 }
