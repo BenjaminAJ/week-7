@@ -129,7 +129,7 @@ function getScore(params) {
     grade = 'failed';
 
   }
-  resultWrapper.innerHTML = `Your score is ${score}/${questionarray.length + 1}.` + `You ${grade}.`;
+  resultWrapper.innerHTML = `Your score is ${score}/${questionarray.length }.` + `You ${grade}.`;
   // console.log(score);
 
 }
